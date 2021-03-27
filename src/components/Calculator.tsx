@@ -80,6 +80,7 @@ function Calculator() {
                         className="form-control"
                         id="knownValue"
                         inputMode="decimal"
+                        onFocus={e => e.target.select()}
                         onChange={e => setKnownValue(e.currentTarget.value)}
                         value={knownValue}
                     />
