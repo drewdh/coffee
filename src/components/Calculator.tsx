@@ -59,5 +59,7 @@ function Calculator() {
 export default Calculator;
 
 function getLabel(value: number) {
-    return `${Number(value.toFixed(1)).toLocaleString()}`;
+    const number: number = Number(value) || 0;
+    const rounded: string = number.toFixed(1);
+    return `${Number(rounded).toLocaleString()}`;
 }
