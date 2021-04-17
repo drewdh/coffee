@@ -11,18 +11,22 @@ function Calculator() {
             return;
         }
         const knownValue = localStorage.getItem(localStorageKey) || '';
-        setKnownValue(knownValue);
+        if (!isNaN(Number(knownValue))) {
+            setKnownValue(knownValue);
+        }
     }, []);
 
     const water = React.useMemo((): number => {
-        const value = Number(knownValue || 0);
-        return value * ratio;
+        return Number(knownValue) * ratio;
     }, [knownValue, ratio]);
 
     const handleChange = React.useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
         const value = event.currentTarget.value;
+        if (isNaN(Number(value))) {
+            return;
+        }
         if (localStorage) {
-            localStorage.setItem(localStorageKey, value);
+            localStorage.setItem(localStorageKey, value.toString());
         }
         setKnownValue(value);
     }, []);
