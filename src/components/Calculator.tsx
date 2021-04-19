@@ -1,8 +1,10 @@
 import React from 'react';
 
 const localStorageKey = 'coffee-calculator-known-value';
+const recentValuesLimit = 3;
 
 function Calculator() {
+    const [recentValues, setRecentValues] = React.useState<string[]>([]);
     const [knownValue, setKnownValue] = React.useState<string>('');
     const [ratio] = React.useState<number>(16);
 
@@ -10,10 +12,14 @@ function Calculator() {
         if (!localStorage) {
             return;
         }
-        const knownValue = localStorage.getItem(localStorageKey) || '';
-        if (!isNaN(Number(knownValue))) {
-            setKnownValue(knownValue);
-        }
+        const recentValuesItem = localStorage.getItem(localStorageKey) || '';
+        try {
+            const parsedRecentValues = JSON.parse(recentValuesItem);
+            if (Array.isArray(parsedRecentValues)) {
+                const validValues = parsedRecentValues.filter(value => !isNaN(value));
+                setRecentValues(validValues);
+            }
+        } catch (e) {}
     }, []);
 
     const water = React.useMemo((): number => {
@@ -25,16 +31,20 @@ function Calculator() {
         if (isNaN(Number(value))) {
             return;
         }
-        if (localStorage) {
-            localStorage.setItem(localStorageKey, value.toString());
-        }
         setKnownValue(value);
-    }, []);
+        if (!localStorage) {
+            return;
+        }
+        const newRecentValues = [value, ...recentValues]
+            .filter((value, index, self) => self.indexOf(value) === index)
+            .slice(0, recentValuesLimit);
+        localStorage.setItem(localStorageKey, JSON.stringify(newRecentValues));
+    }, [recentValues]);
 
     return (
         <>
             <div className="card card-body mb-3">
-                <label className="h6 text-primary card-title" htmlFor="knownValue">Coffee</label>
+                <label className="h6 card-title" htmlFor="knownValue">Coffee</label>
                 <div className="input-group input-group-lg">
                     <input
                         className="form-control"
@@ -47,10 +57,26 @@ function Calculator() {
                     />
                     <span className="input-group-text">g</span>
                 </div>
+
+                {Boolean(recentValues.length) && (
+                    <div className="mt-3">
+                        <h6>Recents</h6>
+                        {recentValues.map((value, index) => (
+                            <button
+                                className="btn btn-secondary rounded-pill me-2 px-3"
+                                key={index}
+                                onClick={() => setKnownValue(value)}
+                                style={{cursor: 'pointer'}}
+                            >
+                                {getLabel(value)}g
+                            </button>
+                        ))}
+                    </div>
+                )}
             </div>
 
             <div className="card card-body">
-                <h6 className="card-title text-primary">Water Weight</h6>
+                <h6 className="card-title">Water Weight</h6>
                 <h1 className="mb-0">
                     {getLabel(water)}
                     <small className="text-muted fw-normal"> grams</small>
@@ -62,7 +88,7 @@ function Calculator() {
 
 export default Calculator;
 
-function getLabel(value: number) {
+function getLabel(value: number | string) {
     const number: number = Number(value) || 0;
     const rounded: string = number.toFixed(1);
     return `${Number(rounded).toLocaleString()}`;
