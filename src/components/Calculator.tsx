@@ -43,6 +43,7 @@ function Calculator() {
 
     return (
         <>
+            <h3>Coffee</h3>
             <div className="card card-body mb-3">
                 <label className="h6 card-title" htmlFor="knownValue">Coffee</label>
                 <div className="input-group input-group-lg">
@@ -75,13 +76,68 @@ function Calculator() {
                 )}
             </div>
 
-            <div className="card card-body">
-                <h6 className="card-title">Water Weight</h6>
-                <h1 className="mb-0">
-                    {getLabel(water)}
-                    <small className="text-muted fw-normal"> grams</small>
-                </h1>
-            </div>
+            <h3>Water</h3>
+            <ul className="list-group">
+                <li className="list-group-item justify-content-between d-flex align-items-center">
+                    <div>
+                        <div className="fw-bolds">Bloom</div>
+                        <span className="text-muted">
+                            <small>
+                                Add {getLabel(knownValue)}g water
+                            </small>
+                        </span>
+                    </div>
+                    <div className="text-end">
+                        <div>{getLabel(knownValue)}g total</div>
+                    </div>
+                </li>
+                <li className="list-group-item justify-content-between d-flex align-items-center">
+                    <div>
+                        <div className="fw-bolds">Pour 1</div>
+                        <span className="text-muted">
+                            <small>
+                                Add {getLabel((water - Number(knownValue))/3)}g water
+                            </small>
+                        </span>
+                    </div>
+                    <div className="text-end">
+                        <div>{getLabel(((water - Number(knownValue))/3) + Number(knownValue))}g total</div>
+                    </div>
+                </li>
+                <li className="list-group-item justify-content-between d-flex align-items-center">
+                    <div>
+                        <div className="fw-bolds">Pour 2</div>
+                        <span className="text-muted">
+                            <small>
+                                Add {getLabel((water - Number(knownValue))/3)}g water
+                            </small>
+                        </span>
+                    </div>
+                    <div className="text-end">
+                        <div>{getLabel(((water - Number(knownValue))/3)*2 + Number(knownValue))}g total</div>
+                    </div>
+                </li>
+                <li className="list-group-item justify-content-between d-flex align-items-center">
+                    <div>
+                        <div className="fw-bolds">Pour 2</div>
+                        <span className="text-muted">
+                            <small>
+                                Add {getLabel((water - Number(knownValue))/3)}g water
+                            </small>
+                        </span>
+                    </div>
+                    <div className="text-end">
+                        <div>{getLabel(((water - Number(knownValue))) + Number(knownValue))}g total</div>
+                    </div>
+                </li>
+            </ul>
+            {/*<div className="card card-body">*/}
+            {/*    <h6 className="card-title">Water Weight</h6>*/}
+            {/*    <h1 className="mb-0">*/}
+            {/*        {getLabel(water)}*/}
+            {/*        <small className="text-muted fw-normal"> grams</small>*/}
+            {/*    </h1>*/}
+            {/*</div>*/}
         </>
     )
 }
