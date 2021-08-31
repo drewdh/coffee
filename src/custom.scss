@@ -1,7 +1,24 @@
 @import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/@fontsource/noto-sans/400.css";
+@import "../node_modules/@fontsource/noto-sans/700.css";
 
-$border-radius: 18px;
-$enable-gradients: true;
-$body-bg: #f3f2f7;
-$input-group-addon-bg: $body-bg;
+$headings-font-weight: 700;
+$border-radius: 8px;
+$enable-gradients: false;
+$body-bg: #563c2f;
+$body-color: rgb(240, 240, 240);
+$light: lighten($body-bg, 10%);
 $card-border-color: transparent;
+$font-family-sans-serif: 'Noto Sans';
+$font-family-base: 'Noto Sans';
+$input-bg: darken($body-bg, 7%);
+$input-border-radius-lg: 8px;
+$input-border-width: 1px;
+$input-placeholder-color: rgb(240, 240, 240);
+$input-color: rgb(240, 240, 240);
+$input-border-color: rgba(255, 255, 255, 0.56);
+$input-focus-box-shadow: 0 0 0 2px rgb(240, 240, 240);
+$input-focus-border-color: rgb(240, 240, 240);
+
+// Buttons
+$btn-padding-x-sm: 0.75rem;
